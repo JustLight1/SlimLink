@@ -1,7 +1,7 @@
 import pytest
 
-from yacut import app
-from yacut.models import URL_map
+from slimlink_app import app
+from slimlink_app.models import URL_map
 
 py_url = 'https://www.python.org'
 
