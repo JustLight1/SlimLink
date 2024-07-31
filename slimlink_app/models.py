@@ -1,5 +1,7 @@
 from datetime import datetime, timezone
 
+from flask import url_for
+
 from . import db
 
 
@@ -11,14 +13,8 @@ class URL_map(db.Model):
                           default=datetime.now(timezone.utc))
 
     def to_dict(self):
-        return dict(
-            id=self.id,
-            original=self.original,
-            short=self.short,
-            timestamp=self.timestamp
-        )
-
-    def from_dict(self, data):
-        for field in ['original', 'short']:
-            if field in data:
-                setattr(self, field, data[field])
+        return {
+            'url': self.original,
+            'short_link': url_for('redirect_to_original',
+                                  short_id=self.short, _external=True),
+        }
