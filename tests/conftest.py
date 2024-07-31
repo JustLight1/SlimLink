@@ -1,28 +1,30 @@
+import os
 import sys
 from pathlib import Path
 
 import pytest
 from dotenv import load_dotenv
-from mixer.backend.flask import mixer as _mixer
 
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 sys.path.append(str(BASE_DIR))
 
-
 try:
     from slimlink_app import app, db
-    from slimlink_app.models import URL_map
-except NameError:
+    from slimlink_app.models import URL_map  # noqa
+except NameError as exc:
     raise AssertionError(
-        'Не обнаружен объект приложения. Создайте экземпляр класса Flask и назовите его app.',
+        'При попытке импорта объекта приложения вознакло исключение: '
+        f'`{type(exc).__name__}: {exc}`'
     )
 except ImportError as exc:
     if any(obj in exc.name for obj in ['models', 'URL_map']):
-        raise AssertionError('В файле models не найдена модель URL_map')
+        raise AssertionError('В файле `models` не найдена модель `URL_map`.')
     raise AssertionError(
-        'Не обнаружен объект класса SQLAlchemy. Создайте его и назовите db.')
+        'При попытке запуска приложения вознакло исключение: '
+        f'`{type(exc).__name__}: {exc}`'
+    )
 
 
 @pytest.fixture
@@ -55,16 +57,13 @@ def cli_runner():
 
 
 @pytest.fixture
-def mixer():
-    _mixer.init_app(app)
-    return _mixer
+def short_python_url():
+    url_map_object = URL_map(original='https://www.python.org', short='py')
+    db.session.add(url_map_object)
+    db.session.commit()
+    return url_map_object
 
 
-@pytest.fixture
-def short_python_url(mixer):
-    with app.app_context():
-        short_url = mixer.blend(
-            URL_map, original='https://www.python.org', short='py')
-        db.session.add(short_url)
-        db.session.refresh(short_url)
-    return short_url
+@pytest.fixture(scope='session')
+def duplicated_custom_id_msg():
+    return 'Предложенный вариант короткой ссылки уже существует.'
