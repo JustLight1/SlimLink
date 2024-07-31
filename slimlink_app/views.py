@@ -13,7 +13,7 @@ def index_view():
         custom_id = form.custom_id.data
         if custom_id:
             if URL_map.query.filter_by(short=custom_id).first() is not None:
-                flash('Такая ссылка уже была добавлена ранее!',
+                flash(f'Имя {custom_id} уже занято!',
                       'not-unique-link')
                 return render_template('link.html', form=form)
             short_link = form.custom_id.data
