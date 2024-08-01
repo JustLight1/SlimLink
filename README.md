@@ -4,7 +4,7 @@
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Flask](https://img.shields.io/badge/Flask-20232A?style=for-the-badge&logo=flask&logoColor=white)
-<a href='https://www.sqlalchemy.org/' target="_blank"><img alt='' src='https://img.shields.io/badge/SQLALCHEMY-100000?style=for-the-badge&logo=&logoColor=white&labelColor=black&color=B60707'/></a>
+![Static Badge](https://img.shields.io/badge/sqlalchemy-%23D71F00?style=for-the-badge&logo=sqlalchemy&logoColor=black&logoSize=auto)
 
 </div>
 
