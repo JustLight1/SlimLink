@@ -33,7 +33,6 @@ def add_short_link():
     else:
         custom_id = get_unique_short_id()
     url = URL_map(original=data['url'], short=custom_id)
-    url.from_dict(data)
     db.session.add(url)
     db.session.commit()
     return jsonify(url.to_dict()), 201
